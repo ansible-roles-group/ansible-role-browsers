@@ -1,0 +1,22 @@
+---
+
+- name: Install Chromium Browser
+  become: yes
+  pacman:
+    state: latest
+    update_cache: yes
+    name: chromium
+  tags:
+    - browser:chromium
+
+- name: Link App Mode helper script
+  become: yes
+  file:
+    state: link
+    src: "{{ dotfiles_path }}/bin/chromium-app-mode.sh"
+    dest: /usr/local/bin/chromium-app-mode
+    mode: u=rwx,g=rx,o=rx
+  tags:
+    - dotfiles:launcher:helper
+    - dotfiles:firefox-developer-edition
+    - browser:chromium

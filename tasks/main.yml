@@ -1,0 +1,50 @@
+---
+
+- name: Install Firefox tools
+  import_tasks: firefox.yml
+
+- name: Install Chromium tools
+  import_tasks: chromium.yml
+
+- name: Ensure desktop menu entries folders exists
+  file:
+    state: directory
+    path: "/home/{{ user_name }}/.local/share/applications"
+    owner: "{{ user_name }}"
+    group: "{{ user_group }}"
+  tags:
+    - browser
+    - dotfiles:launcher
+
+- name: Link some desktop entry shortcuts from my dotfiles
+  file:
+    state: link
+    src: "{{ dotfiles_path }}/shortcuts/desktop_applications/{{ item }}"
+    dest: "/home/{{ user_name }}/.local/share/applications/{{ item }}"
+    owner: "{{ user_name }}"
+    group: "{{ user_group }}"
+  with_items:
+    - gitmoji.desktop
+    - hvv.desktop
+    - microsoft-teams.desktop
+    - microsoft-o365-outlook-web.desktop
+    - whatsapp-web.desktop
+  tags:
+    - browser
+    - dotfiles:launcher
+
+- name: Link some desktop entry icons from my dotfiles
+  become: yes
+  file:
+    state: link
+    src: "{{ dotfiles_path }}/shortcuts/desktop_applications/icons/{{ item }}"
+    dest: "/usr/share/pixmaps/{{ item }}"
+  with_items:
+    - gitmoji.png
+    - hvv.png
+    - teams.png
+    - o365-outlook.png
+    - whatsapp.png
+  tags:
+    - browser
+    - dotfiles:launcher:icons

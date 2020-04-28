@@ -1,0 +1,35 @@
+---
+
+- name: Install Firefox browser
+  become: yes
+  pacman:
+    state: latest
+    update_cache: yes
+    name:
+      - firefox
+      - firefox-i18n-de
+  tags:
+    - browser:firefox
+
+- name: Install Firefox Development Edition browser
+  become: yes
+  pacman:
+    state: latest
+    update_cache: yes
+    name:
+      - firefox-developer-edition
+      - firefox-developer-edition-i18n-de
+  tags:
+    - browser:firefox:developer
+
+- name: Link Kiosk Mode helper script
+  become: yes
+  file:
+    state: link
+    src: "{{ dotfiles_path }}/bin/firefox-dev-kiosk.sh"
+    dest: /usr/local/bin/firefox-dev-kiosk
+    mode: u=rwx,g=rx,o=rx
+  tags:
+    - dotfiles:launcher:helper
+    - dotfiles:firefox-developer-edition
+    - browser:firefox:developer
