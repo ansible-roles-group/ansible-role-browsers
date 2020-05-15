@@ -14,6 +14,7 @@
     group: "{{ user_group }}"
   tags:
     - browser
+    - browser:apps
     - dotfiles:launcher
 
 - name: Link some desktop entry shortcuts from my dotfiles
@@ -31,6 +32,7 @@
     - whatsapp-web.desktop
   tags:
     - browser
+    - browser:apps
     - dotfiles:launcher
 
 - name: Link some desktop entry icons from my dotfiles
@@ -47,4 +49,5 @@
     - whatsapp.png
   tags:
     - browser
+    - browser:apps
     - dotfiles:launcher:icons
